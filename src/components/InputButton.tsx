@@ -1,17 +1,29 @@
 import React from "react";
 
-type setInputNum = React.Dispatch<React.SetStateAction<Array<string>>>;
+type addNum = React.Dispatch<React.SetStateAction<string>>;
+type clearNum = React.Dispatch<>;
 interface Props {
     num: string;
-    inputNum: string[];
-    setInputNum: setInputNum;
+    inputData: string[];
+    addNum: addNum;
+    clearNum: clearNum;
 }
 
-const InputButton: React.FC<Props> = ({ num, inputNum, setInputNum }) => {
+const InputButton: React.FC<Props> = ({ num, inputData, clearNum, addNum }) => {
     const addInputValue = (num: string) => {
-        const newNum = [num];
-        // console.log(inputNum)
-        console.log(inputNum, newNum);
+        if (num == "=") {
+            console.log("計算する。");
+        } else if (num == "▶️") {
+            console.log("一つ消す");
+        } else if (num == "AC") {
+            console.log("全てからにする");
+            clearNum();
+            console.log(inputData);
+        } else {
+            console.log("普通に計算する。", num);
+            addNum(num);
+            console.log(inputData);
+        }
     };
 
     return (

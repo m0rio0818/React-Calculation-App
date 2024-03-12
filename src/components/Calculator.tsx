@@ -1,5 +1,5 @@
 import InputButton from "./InputButton";
-import ShowInput from "./ShowInput";
+import ShowData from "./ShowData";
 import { useState } from "react";
 
 const Calculator = () => {
@@ -24,22 +24,30 @@ const Calculator = () => {
         "▶️",
     ];
 
-    const [inputNum, setInputNum] = useState([]);
-    console.log("inputNum: ", inputNum);
+    const [inputData, setInputNum] = useState(Array<string>());
+    console.log("inputNum: ", inputData);
+
+    const addNum = (num: string) => {
+        setInputNum([...inputData, ...num]);
+    };
+
+    const clearNum = () => {
+        setInputNum([]);
+    };
 
     return (
         <>
             <div className="max-w-2xl w-full mx-auto px-4">
-                <ShowInput inputs={inputNum} />
+                <ShowData inputData={inputData} />
                 <div className="grid gap-4 grid-cols-4 grid-rows-3">
                     {numLists.map((num) => {
-                        console.log("NUM", num);
                         return (
                             <InputButton
                                 key={num}
                                 num={num}
-                                inputNum={inputNum}
-                                setInputNum={setInputNum}
+                                inputData={inputData}
+                                clearNum={clearNum}
+                                addNum={addNum}
                             />
                         );
                     })}
@@ -48,4 +56,5 @@ const Calculator = () => {
         </>
     );
 };
+
 export default Calculator;
