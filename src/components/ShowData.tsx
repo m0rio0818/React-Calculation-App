@@ -5,8 +5,8 @@ interface Props {
 const ShowData: React.FC<Props> = ({ inputData }) => {
     return (
         <>
-            <div>
-                <p className="text-center">{inputData}</p>
+            <div className="bg-blue-300 h-24 max-w-2xl w-full flex items-center ">
+                <p className="text-center calculator_c">{inputData}</p>
             </div>
         </>
     );

@@ -27,27 +27,24 @@ const Calculator = () => {
     const [inputData, setInputNum] = useState(Array<string>());
     console.log("inputNum: ", inputData);
 
-    const addNum = (num: string) => {
-        setInputNum([...inputData, ...num]);
+    const setNum = (num: string) => {
+        setInputNum([...num]);
     };
 
-    const clearNum = () => {
-        setInputNum([]);
-    };
+
 
     return (
         <>
             <div className="max-w-2xl w-full mx-auto px-4">
                 <ShowData inputData={inputData} />
-                <div className="grid gap-4 grid-cols-4 grid-rows-3">
+                <div className="grid gap-4 grid-cols-4 grid-rows-3 mt-8">
                     {numLists.map((num) => {
                         return (
                             <InputButton
                                 key={num}
                                 num={num}
                                 inputData={inputData}
-                                clearNum={clearNum}
-                                addNum={addNum}
+                                setNum={setNum}
                             />
                         );
                     })}
