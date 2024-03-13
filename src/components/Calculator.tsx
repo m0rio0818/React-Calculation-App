@@ -27,11 +27,9 @@ const Calculator = () => {
     const [inputData, setInputNum] = useState(Array<string>());
     console.log("inputNum: ", inputData);
 
-    const setNum = (num: string) => {
+    const setNum = (num: string[]) => {
         setInputNum([...num]);
     };
-
-
 
     return (
         <>
