@@ -15,12 +15,51 @@ interface Props {
 const InputButton: React.FC<Props> = ({ num, inputData, setNum }) => {
     const operators: operator[] = ["+", "*", "-", "/"];
 
-    const calculate = (inputs: string[]): void => {
+    const calculate = (inputs: string[]): number => {
         const [values, ops] = getStackNumandOperator(inputs);
-        console.log(values, ops);
+        for (let i = 0; i < ops.length; ) {
+            console.log(i, ops, ops.length);
+            if (ops[i] == "*" || ops[i] == "/") {
+                // console.log("before", values, "op: ", ops);
+                const newVal = calculation(values[i], values[i + 1], ops[i]);
+                values.splice(i, 1);
+                values.splice(i, 1);
+                values.splice(i, 0, newVal);
+                ops.splice(i, 1);
+            } else {
+                i++;
+            }
+        }
+
+        for (let i = 0; i < ops.length; ) {
+            console.log(i, ops, ops.length);
+            if (ops[i] == "+" || ops[i] == "-") {
+                const newVal = calculation(values[i], values[i + 1], ops[i]);
+                values.splice(i, 1);
+                values.splice(i, 1);
+                values.splice(i, 0, newVal);
+                ops.splice(i, 1);
+            } else {
+                i++;
+            }
+        }
+        return values[0];
     };
 
-    function getStackNumandOperator(inputs: string[]): (string[] | number[])[] {
+    function calculation(x: number, y: number, op: string): number {
+        if (op == "+") {
+            return x + y;
+        } else if (op == "-") {
+            return x - y;
+        } else if (op == "*") {
+            return x * y;
+        } else {
+            if (y == 0) return x;
+            else return Math.floor(x / y);
+        }
+    }
+
+    function getStackNumandOperator(inputs: string[]): [number[], string[]] {
         const ops: string[] = [];
         const values: number[] = [];
 
@@ -49,31 +88,26 @@ const InputButton: React.FC<Props> = ({ num, inputData, setNum }) => {
     const addInputValue = (num: string) => {
         if (num == "=") {
             try {
-                console.log("計算する。");
-                calculate(inputData);
+                const result = calculate(inputData);
+                setNum([String(result)]);
             } finally {
                 console.log("done");
             }
         } else if (num == "▶️") {
             inputData.pop();
             setNum([...inputData]);
-            console.log("一つ消す");
         } else if (num == "AC") {
-            console.log("全てからにする");
             const newNum: string[] = [];
             setNum(newNum);
-            console.log(inputData);
         } else {
             if (
                 (operators.includes(inputData[inputData.length - 1]) &&
                     operators.indexOf(num) != -1) ||
                 (inputData[inputData.length - 1] == "." && num == ".")
             ) {
-                console.log("最新入力がもうすでにoperator or .");
                 inputData.pop();
                 setNum([...inputData, num]);
             } else {
-                console.log("普通に計算するためスタックに追加する。", num);
                 setNum([...inputData, num]);
             }
         }
